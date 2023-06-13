@@ -1,5 +1,6 @@
 from tkinter import *
 import random
+import time
 
 window = Tk()
 rootHeight = 1700
@@ -20,7 +21,7 @@ ekill = 0
 
 
 def battle():
-   global level, lvlup, upgs, turn, enemy, elist, ekill, health, healthe, attack, attacke, heal, amin, amax, aemin, aemax, hmin, hmax, hemin, hemax
+   global level, lvlup, upgs, turn, enemy, ekill, health, healthe, attack, attacke, heal, amin, amax, aemin, aemax, hmin, hmax, hemin, hemax
    while healthe > 0 and health > 0:
      turn += 1
      if turn % 2 == 0:
@@ -33,6 +34,7 @@ def battle():
         health = health - attacke
         midLabel.config(text = (f"{enemy} has attacked you... -{attacke}Hp"))
         labelUpdate()
+        print("LABEL SHOULD BE UPDATED ")
       #if 1 not selected, they will heal
       else:
         heal = random.randint(hemin, hemax)
@@ -77,27 +79,31 @@ def battle():
       if lvlup == "1":
         amin += 3
         upgs += 1
+        labelUpdate()
         addEnemy()
-        wanderonly()
+
       elif lvlup == "2":
         amax += 3
         upgs += 1
+        labelUpdate()
         addEnemy()
-        wanderonly()
       elif lvlup == "3":
         hmin += 3
         upgs += 1
+        labelUpdate()
         addEnemy()
-        wanderonly()
       elif lvlup == "4":
         hmax += 3
         upgs += 1
+        labelUpdate()
         addEnemy()
-        wanderonly()
 
     else:
       midLabel.config(text = "Only one choice available...")
       wanderonly()
+
+
+
 def player():
   global health, amin, amax, hmin, hmax
   health = 20
@@ -105,14 +111,7 @@ def player():
   amax = 10 #Max player attack
   hmin = 5 #Min player heal
   hmax = 15 #Max player heal
-def dummy():
-  global enemy, healthe, aemin, aemax, hemin, hemax
-  enemy = "Noone"
-  healthe = 0
-  aemin = 0  #Min enemy attack
-  aemax = 0 #Max enemy attack
-  hemin = 0  #Min enemy heal
-  hemax = 0 #Max enemy heal
+
 def slime():
   global enemy, healthe, aemin, aemax, hemin, hemax
   enemy = "Slime"
@@ -177,9 +176,11 @@ midLabel = Label(window, text = "One goal...\n\n                 SURVIVE\n\n\nYo
 midLabel.grid(row=1, column = 2)
 player()
 slime()
-playerStat = Label(window, text = f"Player:\n\n\nHealh = {health}\n\nATK = {amin}-{amax}\n\nHeal = {hmin}-{hmax}", font = ("", 20)).grid(row=1, column = 1, padx=(1, 200))
+playerStat = Label(window, text = f"Player:\n\n\nHealh = {health}\n\nATK = {amin}-{amax}\n\nHeal = {hmin}-{hmax}", font = ("", 20))
+playerStat.grid(row=1, column = 1, padx=(1, 200))
 
-enemyStat = Label(window, text = f"{enemy}:\n\n\nHealh = {healthe}\n\nATK = {aemin}-{aemax}\n\nHeal = {hemin}-{hemax}", font = ("", 20)).grid(row=1, column = 3, padx=(200, 100))
+enemyStat = Label(window, text = f"{enemy}:\n\n\nHealh = {healthe}\n\nATK = {aemin}-{aemax}\n\nHeal = {hemin}-{hemax}", font = ("", 20))
+enemyStat.grid(row=1, column = 3, padx=(200, 100))
 
 
 def wanderAction():
@@ -222,6 +223,7 @@ def healAction():
 buttonHeal = Button(window, text = "Heal", command = healAction).grid(row = 3, column = 3)
 
 def upgMinA():
+  global lvlup
   if lvlup == 1:
     lvlup = "1"
   else:
@@ -230,6 +232,7 @@ def upgMinA():
 buttonUpgMinA = Button(window, text = "Upg Min ATK", command = upgMinA).grid(row=2, column = 1)
 
 def upgMaxA():
+  global lvlup
   if lvlup == 1:
     lvlup = "2"
   else:
@@ -238,6 +241,7 @@ def upgMaxA():
 buttonUpgMaxA = Button(window, text = "Upg Max ATK", command = upgMaxA).grid(row=2, column = 2)
 
 def upgMinH():
+  global lvlup
   if lvlup == 1:
     lvlup = "3"
   else:
@@ -246,6 +250,7 @@ def upgMinH():
 buttonUpgMinH = Button(window, text = "Upg Min Heal", command = upgMinH).grid(row=2, column = 3)
 
 def upgMaxH():
+  global lvlup
   if lvlup == 1:
     lvlup = "4"
   else:
@@ -296,8 +301,11 @@ def upgradeButtonsOnly():
 def labelUpdate():
   global enemyStat, playerStat
 
-  enemyStat = Label(window, text = f"Player:\n\n\nHealh = {health}\n\nATK = {amin}-{amax}\n\nHeal = {hmin}-{hmax}", font = ("", 20)).grid(row=1, column = 1, padx=(1, 200))
-  playerStat = Label(window, text = f"{enemy}:\n\n\nHealh = {healthe}\n\nATK = {aemin}-{aemax}\n\nHeal = {hemin}-{hemax}", font = ("", 20)).grid(row=1, column = 3, padx=(200, 100))
+  enemyStat.grid(row=1, column = 1, padx=(1, 200))
+  playerStat.grid(row=1, column = 3, padx=(200, 100))
+
+
+
 def addEnemy():
 
   global enemies
